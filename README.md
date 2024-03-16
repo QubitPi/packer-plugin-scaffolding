@@ -29,24 +29,39 @@ Here's a non exaustive list of Packer plugins that you can checkout:
 
 Looking at their code will give you good examples.
 
+## Setup
+
+### The Go Workspace
+
+Go expects a single workspace for third-party Go tools installed via `go install`. By default, this workspace is located
+in `$HOME/go` with source code for these tools stored in `$HOME/go/src` and the compiled binaries in `$HOME/go/bin`. Set
+`$GOPATH` environment variable to this path first:
+
+```shell
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+```
+
 ## Build from source
 
 1. Clone this GitHub repository locally.
 
-2. Run this command from the root directory: 
+2. Run this command from the root directory:
+
 ```shell 
-go build -ldflags="-X github.com/hashicorp/packer-plugin-scaffolding/version.VersionPrerelease=dev" -o packer-plugin-scaffolding
+make build
 ```
 
-3. After you successfully compile, the `packer-plugin-scaffolding` plugin binary file is in the root directory. 
+3. After you successfully compile, the `packer-plugin-scaffolding` plugin binary file is in the root directory.
 
-4. To install the compiled plugin, run the following command 
+4. To install the compiled plugin, run the following command
+
 ```shell
 packer plugins install --path packer-plugin-scaffolding github.com/hashicorp/scaffolding
 ```
 
 ### Build on *nix systems
-Unix like systems with the make, sed, and grep commands installed can use the `make dev` to execute the build from source steps. 
+Unix like systems with the make, sed, and grep commands installed can use the `make dev` to execute the build from source steps.
 
 ### Build on Windows Powershell
 The preferred solution for building on Windows are steps 2-4 listed above.
@@ -64,21 +79,22 @@ packer plugins install --path packer-plugin-scaffolding.exe $FQN
 Make sure to install the plugin locally using the steps in [Build from source](#build-from-source).
 
 Once everything needed is set up, run:
+
 ```
-PACKER_ACC=1 go test -count 1 -v ./... -timeout=120m
+make test
 ```
 
 This will run the acceptance tests for all plugins in this set.
 
 ## Registering Plugin as Packer Integration
 
-Partner and community plugins can be hard to find if a user doesn't know what 
+Partner and community plugins can be hard to find if a user doesn't know what
 they are looking for. To assist with plugin discovery Packer offers an integration
-portal at https://developer.hashicorp.com/packer/integrations to list known integrations 
-that work with the latest release of Packer. 
+portal at https://developer.hashicorp.com/packer/integrations to list known integrations
+that work with the latest release of Packer.
 
 Registering a plugin as an integration requires [metadata configuration](./metadata.hcl) within the plugin
-repository and approval by the Packer team. To initiate the process of registering your 
+repository and approval by the Packer team. To initiate the process of registering your
 plugin as a Packer integration refer to the [Developing Plugins](https://developer.hashicorp.com/packer/docs/plugins/creation#registering-plugins) page.
 
 # Requirements
