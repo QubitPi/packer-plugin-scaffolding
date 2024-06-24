@@ -9,3 +9,5 @@ dist/*
 docs.zip
 
 .idea/
+
+**/*_test.pkr.hcl
