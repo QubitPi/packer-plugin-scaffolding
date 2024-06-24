@@ -49,7 +49,7 @@ export PATH=$PATH:$GOPATH/bin
 2. Run this command from the root directory:
 
 ```shell 
-make build
+go build -ldflags="-X github.com/hashicorp/packer-plugin-scaffolding/version.VersionPrerelease=dev" -o packer-plugin-scaffolding
 ```
 
 3. After you successfully compile, the `packer-plugin-scaffolding` plugin binary file is in the root directory.
@@ -81,7 +81,7 @@ Make sure to install the plugin locally using the steps in [Build from source](#
 Once everything needed is set up, run:
 
 ```
-make test
+PACKER_ACC=1 go test -count 1 -v ./... -timeout=120m
 ```
 
 This will run the acceptance tests for all plugins in this set.
