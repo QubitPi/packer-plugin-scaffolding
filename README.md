@@ -60,6 +60,12 @@ go build -ldflags="-X github.com/hashicorp/packer-plugin-scaffolding/version.Ver
 packer plugins install --path packer-plugin-scaffolding github.com/hashicorp/scaffolding
 ```
 
+> [!TIP]
+>
+> If executing the `packer plugins install` reports an error, please make sure the version of `packer` command is the
+> latest. To upgrade to the latest version, please refer to
+> [Packer's documentation](https://developer.hashicorp.com/packer/tutorials/docker-get-started/get-started-install-cli)
+
 ### Build on *nix systems
 Unix like systems with the make, sed, and grep commands installed can use the `make dev` to execute the build from source steps.
 
