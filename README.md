@@ -120,4 +120,4 @@ plugin as a Packer integration refer to the [Developing Plugins](https://develop
 -	[Go](https://golang.org/doc/install) >= 1.20
 
 ## Packer Compatibility
-This scaffolding template is compatible with Packer >= v1.10.2
+This scaffolding template is compatible with Packer >= v1.11.0
