@@ -21,10 +21,17 @@ permissions:
 
 jobs:
   push-release-tag:
-    uses: QubitPi/hashicorp-aws/.github/workflows/version-bump.yml@master
-    with:
-      user: QubitPi
-      email: jack20220723@gmail.com
+    name: Bump Version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+      - name: Tag for release
+        run: |
+          git config --global user.name QubitPi
+          git config --global user.email jack20220723@gmail.com
+          .github/version-bump/tag-for-release.bash
 
   get-go-version:
     runs-on: ubuntu-latest
@@ -42,9 +49,6 @@ jobs:
     needs:
       - push-release-tag
       - get-go-version
-    outputs:
-      outcome: ${{ job.status }}
-    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -73,12 +77,3 @@ jobs:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           API_VERSION: ${{ steps.plugin_describe.outputs.api_version }}
-
-  slack-notification:
-    name: Send Slack Notification
-    needs: goreleaser
-    uses: QubitPi/hashicorp-aws/.github/workflows/slack-notification.yml@master
-    with:
-      job-status: ${{ needs.goreleaser.outputs.outcome }}
-    secrets:
-      slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}

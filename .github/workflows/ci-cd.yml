@@ -52,9 +52,6 @@ jobs:
   acceptance-tests:
     name: Packer Plugin Acceptance Tests
     needs: tests
-    outputs:
-      outcome: ${{ job.status }}
-    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -80,13 +77,3 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' && github.repository != 'QubitPi/packer-plugin-scaffolding' }}
     uses: ./.github/workflows/release.yml
     secrets: inherit
-
-  slack-notification:
-    name: Send Slack Notification
-    if: github.ref != 'refs/heads/master'
-    needs: acceptance-tests
-    uses: QubitPi/hashicorp-aws/.github/workflows/slack-notification.yml@master
-    with:
-      job-status: ${{ needs.acceptance-tests.outputs.outcome }}
-    secrets:
-      slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
